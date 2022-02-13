@@ -1,0 +1,35 @@
+﻿{
+  "Name": "Counter",
+  "Version": "1.0.0",
+  "Author": "Stream Deck Community",
+  "Actions": [
+    {
+      "Name": "Counter",
+      "UUID": "com.streamdeckcommunity.counter.increment",
+      "Icon": "Images/Action",
+      "Tooltip": "Increment the count by one.",
+      "States": [
+        {
+          "FontSize": "15",
+          "Image": "Images/Key",
+          "TitleAlignment": "middle"
+        }
+      ]
+    }
+  ],
+  "Category": "Counter",
+  "CategoryIcon": "Images/CategoryIcon",
+  "CodePath": "Counter.exe",
+  "Description": "A counter plugin that demonstrates Stream Deck .NET, from Stream Deck Community.",
+  "Icon": "Images/PluginIcon",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "4.1"
+  },
+  "OS": [
+    {
+      "MinimumVersion": "10",
+      "Platform": "windows"
+    }
+  ]
+}

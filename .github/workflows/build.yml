@@ -1,0 +1,37 @@
+﻿name: build
+
+on:
+  push:
+    branches:
+    - main
+    tags:
+    - '!*'
+    paths-ignore:
+    - '**/*.md'
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: '📥 Checkout'
+      uses: actions/checkout@v2
+
+    - name: '📐 Setup dotnet'
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: '📥 Install dependencies'
+      run: dotnet restore
+
+    - name: '🛠️ Build'
+      run: dotnet build -c Release --no-restore

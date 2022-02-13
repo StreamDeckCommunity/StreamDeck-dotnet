@@ -1,0 +1,32 @@
+<Project>
+
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<DocumentationFile>$(TargetDir)bin\$(Configuration)\$(MSBuildProjectName).xml</DocumentationFile>
+		<Authors>Stream Deck Community</Authors>
+		<IncludeSymbols>true</IncludeSymbols>
+		<IsPackable>true</IsPackable>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageOutputPath>..\..\dist</PackageOutputPath>
+		<PackageProjectUrl>https://github.com/StreamDeckCommunity/StreamDeck-dotnet</PackageProjectUrl>
+		<!-- TODO: <PackageReadmeFile>README.md</PackageReadmeFile>-->
+		<PackageTags>Elgato,Stream-Deck,Streaming,SDK</PackageTags>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<RepositoryUrl>https://github.com/StreamDeckCommunity/StreamDeck-dotnet</RepositoryUrl>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<None Include="..\..\..\LICENSE.md" Pack="true" PackagePath="" Visible="false" />
+		<!-- TODO: <None Include="..\..\README.md" Pack="true" PackagePath="" Visible="false" />-->
+	</ItemGroup>
+
+</Project>
