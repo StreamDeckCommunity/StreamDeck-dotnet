@@ -11,15 +11,14 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 	</PropertyGroup>
 
-	<!--
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutputPath>$(APPDATA)\Elgato\StreamDeck\Plugins\com.streamdeckcommunity.simple.sdPlugin\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
-	-->
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\libraries\StreamDeck.Manifest\StreamDeck.Manifest.csproj" OutputItemType="Analyzer" />
+		<!--<ProjectReference Include="..\..\src\libraries\StreamDeck.Manifest\StreamDeck.Manifest.csproj" OutputItemType="Analyzer" />-->
 		<ProjectReference Include="..\..\src\libraries\StreamDeck\StreamDeck.csproj" />
 	</ItemGroup>
 
@@ -32,10 +31,8 @@
 		</AdditionalFiles>
 	</ItemGroup>
 
-	<!--
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<Exec Command="taskkill -f -t -im StreamDeck.exe -fi &quot;status eq running&quot;" />
 	</Target>
-	-->
 
 </Project>
