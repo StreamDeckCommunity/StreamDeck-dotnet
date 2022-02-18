@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides information about the operating systems supported by the plugin.
     /// </summary>
-    internal class OperatingSystem
+    internal class SupportedOperatingSystem
     {
         /// <summary>
         /// Identifies a "mac" operating system.
@@ -26,24 +26,24 @@
         internal string MinimumVersion { get; private set;}
 
         /// <summary>
-        /// Creates a new <see cref="OperatingSystem"/> for macOS.
+        /// Creates a new <see cref="SupportedOperatingSystem"/> for macOS.
         /// </summary>
         /// <param name="minimumVersion">The minimum version.</param>
         /// <returns>The operating system.</returns>
-        internal static OperatingSystem Mac(string minimumVersion)
-            => new OperatingSystem
+        internal static SupportedOperatingSystem Mac(string minimumVersion)
+            => new SupportedOperatingSystem
             {
                 Platform = MAC,
                 MinimumVersion = minimumVersion
             };
 
         /// <summary>
-        /// Creates a new <see cref="OperatingSystem"/> for Windows.
+        /// Creates a new <see cref="SupportedOperatingSystem"/> for Windows.
         /// </summary>
         /// <param name="minimumVersion">The minimum version.</param>
         /// <returns>The operating system.</returns>
-        internal static OperatingSystem Windows(string minimumVersion)
-            => new OperatingSystem
+        internal static SupportedOperatingSystem Windows(string minimumVersion)
+            => new SupportedOperatingSystem
             {
                 Platform = WINDOWS,
                 MinimumVersion = minimumVersion

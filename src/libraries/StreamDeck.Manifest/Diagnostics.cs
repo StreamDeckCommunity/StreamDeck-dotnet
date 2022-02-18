@@ -30,7 +30,7 @@
         /// <param name="ex">The exception.</param>
         /// <returns>The diagnostic.</returns>
         internal static Diagnostic Exception(System.Exception ex)
-            => Error(string.Empty, $"Failed to generate manifest file: {ex.Message}");
+            => Error("ESD0013", $"Failed to generate manifest file: {ex.Message}");
 
         /// <summary>
         /// Creates a new <see cref="Diagnostic"/> with severity of <see cref="DiagnosticSeverity.Error"/>.

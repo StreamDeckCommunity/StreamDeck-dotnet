@@ -1,6 +1,5 @@
 ﻿namespace StreamDeck.Manifest.Models
 {
-    using System.Collections.Generic;
     using StreamDeck.Manifest.Serialization;
 
     /// <summary>
@@ -11,13 +10,13 @@
         /// <summary>
         /// Gets or sets list of application identifiers to monitor on macOS.
         /// </summary>
-        [JsonPropertyName(OperatingSystem.MAC)]
-        internal List<string> Mac { get; set; } = new List<string>();
+        [JsonPropertyName(SupportedOperatingSystem.MAC)]
+        internal string[] Mac { get; set; }
 
         /// <summary>
         /// Gets or sets list of application identifiers to monitor on Windows.
         /// </summary>
-        [JsonPropertyName(OperatingSystem.WINDOWS)]
-        internal List<string> Windows { get; set; } = new List<string>();
+        [JsonPropertyName(SupportedOperatingSystem.WINDOWS)]
+        internal string[] Windows { get; set; }
     }
 }
