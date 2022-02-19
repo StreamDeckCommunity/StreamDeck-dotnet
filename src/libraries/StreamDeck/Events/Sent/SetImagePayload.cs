@@ -1,7 +1,5 @@
 namespace StreamDeck.Events.Sent
 {
-    using Enums;
-
     /// <summary>
     /// Provides payload information used to set the image.
     /// </summary>
@@ -14,10 +12,7 @@ namespace StreamDeck.Events.Sent
         /// <param name="target">Specify if you want to display the title on the hardware and software, only on the hardware, or only on the software.</param>
         /// <param name="state">A 0-based integer value representing the state of an action with multiple states. This is an optional parameter. If not specified, the image is set to all states.</param>
         public SetImagePayload(string image, Target target = Target.Both, int? state = null)
-            : base(target, state)
-        {
-            this.Image = image;
-        }
+            : base(target, state) => this.Image = image;
 
         /// <summary>
         /// Gets or sets the image to display encoded in base64 with the image format declared in the mime type (PNG, JPEG, BMP, ...). svg is also supported. If no image is passed, the image is reset to the default image from the manifest.

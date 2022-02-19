@@ -6,7 +6,6 @@ namespace StreamDeck
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
-    using StreamDeck.Enums;
     using StreamDeck.Events.Received;
     using StreamDeck.Events.Sent;
     using StreamDeck.Net;
@@ -210,89 +209,78 @@ namespace StreamDeck
             try
             {
                 var args = JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgs);
-                this.Raise(args.Event, e);
+                switch (args.Event)
+                {
+                    // Global.
+                    case "applicationDidLaunch":
+                        this.ApplicationDidLaunch?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload));
+                        break;
+
+                    case "applicationDidTerminate":
+                        this.ApplicationDidTerminate?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload));
+                        break;
+
+                    case "deviceDidConnect":
+                        this.DeviceDidConnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceConnectEventArgs));
+                        break;
+
+                    case "deviceDidDisconnect":
+                        this.DeviceDidDisconnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceEventArgs));
+                        break;
+
+                    case "didReceiveGlobalSettings":
+                        this.DidReceiveGlobalSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsSettingsPayload));
+                        break;
+
+                    case "systemDidWakeUp":
+                        this.SystemDidWakeUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgs));
+                        break;
+
+                    // Action specific.
+                    case "didReceiveSettings":
+                        this.DidReceiveSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsActionPayload));
+                        break;
+
+                    case "keyDown":
+                        this.KeyDown?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload));
+                        break;
+
+                    case "keyUp":
+                        this.KeyUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload));
+                        break;
+
+                    case "propertyInspectorDidAppear":
+                        this.PropertyInspectorDidAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs));
+                        break;
+
+                    case "propertyInspectorDidDisappear":
+                        this.PropertyInspectorDidDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs));
+                        break;
+
+                    case "sendToPlugin":
+                        this.SendToPlugin?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsJsonObject));
+                        break;
+
+                    case "titleParametersDidChange":
+                        this.TitleParametersDidChange?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsTitlePayload));
+                        break;
+
+                    case "willAppear":
+                        this.WillAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload));
+                        break;
+
+                    case "willDisappear":
+                        this.WillDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload));
+                        break;
+
+                    // Unrecognised
+                    default:
+                        throw new ArgumentException($"Unrecognised event: {args.Event}", nameof(args.Event));
+                }
             }
             catch (Exception ex)
             {
                 this.Logger?.LogError(ex, ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Attempts to propagate the specified event.
-        /// </summary>
-        /// <param name="eventName">The event name.</param>
-        /// <param name="e">The web socket message event args.</param>
-        /// <returns>The task of propagating the event.</returns>
-        private void Raise(string eventName, WebSocketMessageEventArgs e)
-        {
-            switch (eventName)
-            {
-                // Global.
-                case "applicationDidLaunch":
-                    this.ApplicationDidLaunch?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload));
-                    break;
-
-                case "applicationDidTerminate":
-                    this.ApplicationDidTerminate?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload));
-                    break;
-
-                case "deviceDidConnect":
-                    this.DeviceDidConnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceConnectEventArgs));
-                    break;
-
-                case "deviceDidDisconnect":
-                    this.DeviceDidDisconnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceEventArgs));
-                    break;
-
-                case "didReceiveGlobalSettings":
-                    this.DidReceiveGlobalSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsSettingsPayload));
-                    break;
-
-                case "systemDidWakeUp":
-                    this.SystemDidWakeUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgs));
-                    break;
-
-                // Action specific.
-                case "didReceiveSettings":
-                    this.DidReceiveSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsActionPayload));
-                    break;
-
-                case "keyDown":
-                    this.KeyDown?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload));
-                    break;
-
-                case "keyUp":
-                    this.KeyUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload));
-                    break;
-
-                case "propertyInspectorDidAppear":
-                    this.PropertyInspectorDidAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs));
-                    break;
-
-                case "propertyInspectorDidDisappear":
-                    this.PropertyInspectorDidDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs));
-                    break;
-
-                case "sendToPlugin":
-                    this.SendToPlugin?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsJsonObject));
-                    break;
-
-                case "titleParametersDidChange":
-                    this.TitleParametersDidChange?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsTitlePayload));
-                    break;
-
-                case "willAppear":
-                    this.WillAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload));
-                    break;
-
-                case "willDisappear":
-                    this.WillDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload));
-                    break;
-
-                // Unrecognised
-                default:
-                    throw new ArgumentException($"Unrecognised event: {eventName}", nameof(eventName));
             }
         }
     }

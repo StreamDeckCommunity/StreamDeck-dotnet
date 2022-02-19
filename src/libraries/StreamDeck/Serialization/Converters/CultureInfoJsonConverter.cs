@@ -1,4 +1,4 @@
-﻿namespace StreamDeck.Serialization
+﻿namespace StreamDeck.Serialization.Converters
 {
     using System;
     using System.Globalization;

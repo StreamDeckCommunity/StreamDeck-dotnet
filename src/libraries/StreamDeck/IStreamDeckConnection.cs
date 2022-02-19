@@ -4,8 +4,8 @@ namespace StreamDeck
     using System.Text.Json.Nodes;
     using System.Threading;
     using System.Threading.Tasks;
-    using StreamDeck.Enums;
     using StreamDeck.Events.Received;
+    using StreamDeck.Events.Sent;
 
     /// <summary>
     /// Provides a connection to a Stream Deck.

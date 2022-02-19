@@ -1,4 +1,4 @@
-namespace StreamDeck.Enums
+namespace StreamDeck.Events.Sent
 {
     /// <summary>
     /// Provides an enumeration of targets.

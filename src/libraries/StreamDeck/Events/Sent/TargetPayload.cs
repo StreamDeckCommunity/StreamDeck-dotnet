@@ -1,7 +1,6 @@
 namespace StreamDeck.Events.Sent
 {
     using System.Text.Json.Serialization;
-    using Enums;
 
     /// <summary>
     /// Provides information about a payload that can be targetted.

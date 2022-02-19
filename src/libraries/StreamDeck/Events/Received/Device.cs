@@ -1,4 +1,4 @@
-namespace StreamDeck.Enums
+namespace StreamDeck.Events.Received
 {
     /// <summary>
     /// Provides an enumeration of devices.

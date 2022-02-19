@@ -3,8 +3,7 @@
     using System;
     using System.Globalization;
     using System.Text.Json.Serialization;
-    using Enums;
-    using StreamDeck.Serialization;
+    using StreamDeck.Serialization.Converters;
 
     /// <summary>
     /// Provides information about an application.
@@ -20,6 +19,7 @@
         /// <summary>
         /// Gets or sets which platform the Stream Deck application is running
         /// </summary>
+        [JsonConverter(typeof(PlatformJsonConverter))]
         public Platform Platform { get; set; }
 
         /// <summary>

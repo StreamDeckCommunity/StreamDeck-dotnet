@@ -1,7 +1,5 @@
 ﻿namespace StreamDeck.Events.Received
 {
-    using Enums;
-
     /// <summary>
     /// Provides information about a device.
     /// </summary>
