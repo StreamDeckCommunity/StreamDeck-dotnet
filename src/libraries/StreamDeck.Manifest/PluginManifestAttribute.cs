@@ -12,21 +12,21 @@
     /// Provides information about the manifest of the plugin.
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
-    public class ManifestAttribute : Attribute
+    public class PluginManifestAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ManifestAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PluginManifestAttribute"/> class.
         /// </summary>
-        public ManifestAttribute()
+        public PluginManifestAttribute()
             : base()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ManifestAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PluginManifestAttribute"/> class.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
-        internal ManifestAttribute(IAssemblySymbol assembly)
+        internal PluginManifestAttribute(IAssemblySymbol assembly)
         {
             // Required.
             this.Author = assembly.GetAttributeValueOrDefault<AssemblyCompanyAttribute, string>();
@@ -139,14 +139,19 @@
         public override object TypeId => base.TypeId;
 
         /// <summary>
+        /// Gets the actions associated with the plugin.
+        /// </summary>
+        internal List<PluginActionAttribute> Actions { get; } = new List<PluginActionAttribute>();
+
+        /// <summary>
         /// Gets or sets the list of application identifiers to monitor (applications launched or terminated).
         /// </summary>
         internal ApplicationsToMonitor ApplicationsToMonitor
         {
             get
             {
-                if (this.ApplicationsToMonitorMac == null
-                    && this.ApplicationsToMonitorWin == null)
+                if (this.ApplicationsToMonitorMac.Length == 0
+                    && this.ApplicationsToMonitorWin.Length == 0)
                 {
                     return null;
                 }

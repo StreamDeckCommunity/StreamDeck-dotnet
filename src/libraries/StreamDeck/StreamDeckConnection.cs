@@ -128,7 +128,7 @@ namespace StreamDeck
             => this.WebSocket.DisconnectAsync();
 
         /// <inheritdoc/>
-        public Task WaitForDisconnectAsync(CancellationToken cancellationToken = default)
+        public Task WaitForShutdownAsync(CancellationToken cancellationToken = default)
             => this.WebSocket.WaitForDisconnectAsync(cancellationToken);
 
         /// <inheritdoc/>

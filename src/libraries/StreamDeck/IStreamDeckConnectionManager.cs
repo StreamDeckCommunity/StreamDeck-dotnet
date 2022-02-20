@@ -27,6 +27,6 @@
         /// </summary>
         /// <param name="cancellationToken">The optional cancellation token.</param>
         /// <returns>The task of the live connection.</returns>
-        public Task WaitForDisconnectAsync(CancellationToken cancellationToken = default);
+        public Task WaitForShutdownAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -19,16 +19,16 @@
         /// <summary>
         /// Top alignment.
         /// </summary>
-        public static readonly TitleAlignment Top = new TitleAlignment(nameof(Top).ToLowerInvariant());
+        public const string Top = "top";
 
         /// <summary>
         /// Middle alignment.
         /// </summary>
-        public static readonly TitleAlignment Middle = new TitleAlignment(nameof(Middle).ToLowerInvariant());
+        public const string Middle = "middle";
 
         /// <summary>
         /// Bottom alignment.
         /// </summary>
-        public static readonly TitleAlignment Bottom = new TitleAlignment(nameof(Bottom).ToLowerInvariant());
+        public const string Bottom = "bottom";
     }
 }

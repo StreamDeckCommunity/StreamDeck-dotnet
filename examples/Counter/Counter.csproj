@@ -11,14 +11,20 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 	</PropertyGroup>
 
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<OutputPath>$(APPDATA)\Elgato\StreamDeck\Plugins\com.streamdeckcommunity.simple.sdPlugin\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!--<ProjectReference Include="..\..\src\libraries\StreamDeck.Manifest\StreamDeck.Manifest.csproj" OutputItemType="Analyzer" />-->
+		<Using Include="StreamDeck" />
+		<Using Include="StreamDeck.Events.Received" />
+		<Using Include="StreamDeck.Extensions" />
+		<Using Include="StreamDeck.Manifest" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\libraries\StreamDeck.Manifest\StreamDeck.Manifest.csproj" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\..\src\libraries\StreamDeck\StreamDeck.csproj" />
 	</ItemGroup>
 

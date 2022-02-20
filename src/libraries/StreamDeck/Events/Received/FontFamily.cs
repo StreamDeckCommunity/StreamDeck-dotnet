@@ -19,82 +19,82 @@ namespace StreamDeck.Events.Received
         /// <summary>
         /// Default font.
         /// </summary>
-        public static readonly FontFamily Default = string.Empty;
+        public const string Default = "";
 
         /// <summary>
         /// Arial font.
         /// </summary>
-        public static readonly FontFamily Arial = nameof(Arial);
+        public const string Arial = nameof(Arial);
 
         /// <summary>
         /// Arial Black font.
         /// </summary>
-        public static readonly FontFamily ArialBlack = "Arial Black";
+        public const string ArialBlack = "Arial Black";
 
         /// <summary>
         /// Comic Sans MS font.
         /// </summary>
-        public static readonly FontFamily ComicSansMS = "Comic Sans MS";
+        public const string ComicSansMS = "Comic Sans MS";
 
         /// <summary>
         /// Courier font.
         /// </summary>
-        public static readonly FontFamily Courier = nameof(Courier);
+        public const string Courier = nameof(Courier);
 
         /// <summary>
         /// Courier New font.
         /// </summary>
-        public static readonly FontFamily CourierNew = "Courier New";
+        public const string CourierNew = "Courier New";
 
         /// <summary>
         /// Georgia font.
         /// </summary>
-        public static readonly FontFamily Georgia = nameof(Georgia);
+        public const string Georgia = nameof(Georgia);
 
         /// <summary>
         /// Impact font.
         /// </summary>
-        public static readonly FontFamily Impact = nameof(Impact);
+        public const string Impact = nameof(Impact);
 
         /// <summary>
         /// Microsoft Sans Serif font.
         /// </summary>
-        public static readonly FontFamily MicrosoftSansSerif = "Microsoft Sans Serif";
+        public const string MicrosoftSansSerif = "Microsoft Sans Serif";
 
         /// <summary>
         /// Symbol font.
         /// </summary>
-        public static readonly FontFamily Symbol = nameof(Symbol);
+        public const string Symbol = nameof(Symbol);
 
         /// <summary>
         /// Tahoma font.
         /// </summary>
-        public static readonly FontFamily Tahoma = nameof(Tahoma);
+        public const string Tahoma = nameof(Tahoma);
 
         /// <summary>
         /// Times New Roman font.
         /// </summary>
-        public static readonly FontFamily TimesNewRoman = "Times New Roman";
+        public const string TimesNewRoman = "Times New Roman";
 
         /// <summary>
         /// Trebuchet MS font.
         /// </summary>
-        public static readonly FontFamily TrebuchetMS = "Trebuchet MS";
+        public const string TrebuchetMS = "Trebuchet MS";
 
         /// <summary>
         /// Verdana font.
         /// </summary>
-        public static readonly FontFamily Verdana = nameof(Verdana);
+        public const string Verdana = nameof(Verdana);
 
         /// <summary>
         /// Webdings font.
         /// </summary>
-        public static readonly FontFamily Webdings = nameof(Webdings);
+        public const string Webdings = nameof(Webdings);
 
         /// <summary>
         /// Wingdings font.
         /// </summary>
-        public static readonly FontFamily Wingdings = nameof(Wingdings);
+        public const string Wingdings = nameof(Wingdings);
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="string"/> to <see cref="FontFamily"/>.

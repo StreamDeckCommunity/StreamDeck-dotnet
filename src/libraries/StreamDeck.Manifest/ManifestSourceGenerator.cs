@@ -1,11 +1,10 @@
 ﻿namespace StreamDeck.Manifest
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using Microsoft.CodeAnalysis;
-    using StreamDeck.Manifest.Models;
     using StreamDeck.Manifest.Serialization;
 
     /// <summary>
@@ -14,23 +13,35 @@
     [Generator]
     public class ManifestSourceGenerator : ISourceGenerator
     {
+        /// <summary>
+        /// Gets the manifest builder.
+        /// </summary>
+        private ManifestBuilder ManifestBuilder { get; } = new ManifestBuilder();
+
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
-            Debugger.Launch();
+            // Ensure we have a registered context receiver; this is responsible for discovering actions and states.
+            if (context.SyntaxContextReceiver == null)
+            {
+                return;
+            }
 
             try
             {
-                if (!this.TryGetManifestFilePath(context, out var manifestFilePath))
+                // Ensure we know where the manifest.json file is located.
+                var canWrite = this.TryGetFilePath(context, out var manifestFilePath);
+                if (!canWrite)
                 {
                     context.ReportDiagnostic(Diagnostics.MissingManifestFile);
                 }
 
-                if (ManifestBuilder.TryParse(context, out var manifest))
+                // Attempt to parse the manifest information from the context.
+                if (this.ManifestBuilder.TryBuild(context, out var manifest))
                 {
-                    if (!string.IsNullOrWhiteSpace(manifestFilePath))
+                    if (canWrite)
                     {
-                        File.WriteAllText(manifestFilePath, JsonSerializer.Serialize(manifest), System.Text.Encoding.UTF8);
+                        File.WriteAllText(manifestFilePath, JsonSerializer.Serialize(manifest), Encoding.UTF8);
                     }
                 }
                 else
@@ -45,7 +56,8 @@
         }
 
         /// <inheritdoc/>
-        public void Initialize(GeneratorInitializationContext context) { /* Do nothing. */ }
+        public void Initialize(GeneratorInitializationContext context)
+            => context.RegisterForSyntaxNotifications(() => this.ManifestBuilder);
 
         /// <summary>
         /// Attempts to get the manifest.json file path from the additional files defined in the <paramref name="context"/>.
@@ -53,7 +65,7 @@
         /// <param name="context">The generator execution context.</param>
         /// <param name="filePath">The manifest.json file path.</param>
         /// <returns><c>true</c> when the manifest.json file path was present; otherwise <c>false</c>.</returns>
-        private bool TryGetManifestFilePath(GeneratorExecutionContext context, out string filePath)
+        internal bool TryGetFilePath(GeneratorExecutionContext context, out string filePath)
         {
             filePath = context.AdditionalFiles.FirstOrDefault(a => a.Path.EndsWith("manifest.json", StringComparison.OrdinalIgnoreCase))?.Path;
             return filePath != null;

@@ -17,11 +17,9 @@
         /// <param name="data">The attribute data.</param>
         /// <returns>The newly constructed attribute.</returns>
         internal static T CreateInstance<T>(this AttributeData data)
-            where T : new()
         {
-            var attr = (T)Activator.CreateInstance(
-                typeof(T),
-                data.ConstructorArguments.Select(x => x.Value).ToArray());
+            var attr = (T)Activator.CreateInstance(typeof(T), data.ConstructorArguments.Select(x => x.Value).ToArray());
+            data.Populate(attr);
 
             return attr;
         }

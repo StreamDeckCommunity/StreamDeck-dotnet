@@ -19,21 +19,21 @@ namespace StreamDeck.Events.Received
         /// <summary>
         /// Regular font.
         /// </summary>
-        public static readonly FontStyle Regular = new FontStyle(nameof(Regular));
+        public const string Regular = nameof(Regular);
 
         /// <summary>
         /// Bold font.
         /// </summary>
-        public static readonly FontStyle Bold = new FontStyle(nameof(Bold));
+        public const string Bold = nameof(Bold);
 
         /// <summary>
         /// Italic font.
         /// </summary>
-        public static readonly FontStyle Italic = new FontStyle(nameof(Italic));
+        public const string Italic = nameof(Italic);
 
         /// <summary>
         /// Bold and italic font.
         /// </summary>
-        public static readonly FontStyle BoldItalic = new FontStyle("Bold Italic");
+        public const string BoldItalic = "Bold Italic";
     }
 }

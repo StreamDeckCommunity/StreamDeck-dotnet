@@ -19,11 +19,11 @@
         /// <summary>
         /// The Mac platform (kESDSDKApplicationInfoPlatformMac).
         /// </summary>
-        public static readonly TitleAlignment Mac = new TitleAlignment(nameof(Mac).ToLowerInvariant());
+        public const string Mac = "mac";
 
         /// <summary>
         /// The Windows platform (kESDSDKApplicationInfoPlatformWindows).
         /// </summary>
-        public static readonly TitleAlignment Windows = new TitleAlignment(nameof(Windows).ToLowerInvariant());
+        public const string Windows = "windows";
     }
 }

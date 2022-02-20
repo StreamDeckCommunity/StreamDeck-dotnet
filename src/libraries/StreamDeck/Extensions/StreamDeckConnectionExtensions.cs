@@ -58,6 +58,18 @@ namespace StreamDeck.Extensions
             => connection.GetSettingsAsync(context, settings => settings.Deserialize(jsonTypeInfo), cancellationToken);
 
         /// <summary>
+        /// Runs the plugin and returns a <see cref="Task"/> that only completes when the plugin disconnects from the Stream Deck.
+        /// </summary>
+        /// <param name="connection">The connection with the Stream Deck.</param>
+        /// <param name="cancellationToken">The optional cancellation token.</param>
+        /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
+        public static async Task RunAsync(this StreamDeckConnection connection, CancellationToken cancellationToken = default)
+        {
+            await connection.ConnectAsync(cancellationToken).ConfigureAwait(false);
+            await connection.WaitForShutdownAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Requests the persistent global data stored for the plugin.
         /// </summary>
         /// <typeparam name="T">The type of the settings.</typeparam>
