@@ -10,7 +10,7 @@
 		<IsPackable>true</IsPackable>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-		<PackageOutputPath>..\..\dist</PackageOutputPath>
+		<PackageOutputPath>..\..\..\dist</PackageOutputPath>
 		<PackageProjectUrl>https://github.com/StreamDeckCommunity/StreamDeck-dotnet</PackageProjectUrl>
 		<!-- TODO: <PackageReadmeFile>README.md</PackageReadmeFile>-->
 		<PackageTags>Elgato,Stream-Deck,Streaming,SDK</PackageTags>
@@ -26,7 +26,7 @@
 		</PackageReference>
 
 		<None Include="..\..\..\LICENSE.md" Pack="true" PackagePath="" Visible="false" />
-		<!-- TODO: <None Include="..\..\README.md" Pack="true" PackagePath="" Visible="false" />-->
+		<!-- TODO: <None Include="..\..\..\README.md" Pack="true" PackagePath="" Visible="false" />-->
 	</ItemGroup>
 
 </Project>

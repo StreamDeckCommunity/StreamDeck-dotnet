@@ -13,51 +13,44 @@
     [Generator]
     public class ManifestSourceGenerator : ISourceGenerator
     {
-        /// <summary>
-        /// Gets the manifest builder.
-        /// </summary>
-        private ManifestBuilder ManifestBuilder { get; } = new ManifestBuilder();
-
         /// <inheritdoc/>
         public void Execute(GeneratorExecutionContext context)
         {
             // Ensure we have a registered context receiver; this is responsible for discovering actions and states.
-            if (context.SyntaxContextReceiver == null)
+            if (context.SyntaxContextReceiver is ManifestBuilder builder)
             {
-                return;
-            }
-
-            try
-            {
-                // Ensure we know where the manifest.json file is located.
-                var canWrite = this.TryGetFilePath(context, out var manifestFilePath);
-                if (!canWrite)
+                try
                 {
-                    context.ReportDiagnostic(Diagnostics.MissingManifestFile);
-                }
-
-                // Attempt to parse the manifest information from the context.
-                if (this.ManifestBuilder.TryBuild(context, out var manifest))
-                {
-                    if (canWrite)
+                    // Ensure we know where the manifest.json file is located.
+                    var canWrite = this.TryGetFilePath(context, out var manifestFilePath);
+                    if (!canWrite)
                     {
-                        File.WriteAllText(manifestFilePath, JsonSerializer.Serialize(manifest), Encoding.UTF8);
+                        context.ReportDiagnostic(Diagnostics.MissingManifestFile);
+                    }
+
+                    // Attempt to parse the manifest information from the context.
+                    if (builder.TryBuild(context, out var manifest))
+                    {
+                        if (canWrite)
+                        {
+                            File.WriteAllText(manifestFilePath, JsonSerializer.Serialize(manifest), Encoding.UTF8);
+                        }
+                    }
+                    else
+                    {
+                        context.ReportDiagnostic(Diagnostics.MissingManifestAttribute);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    context.ReportDiagnostic(Diagnostics.MissingManifestAttribute);
+                    context.ReportDiagnostic(Diagnostics.Exception(ex));
                 }
-            }
-            catch (Exception ex)
-            {
-                context.ReportDiagnostic(Diagnostics.Exception(ex));
             }
         }
 
         /// <inheritdoc/>
         public void Initialize(GeneratorInitializationContext context)
-            => context.RegisterForSyntaxNotifications(() => this.ManifestBuilder);
+            => context.RegisterForSyntaxNotifications(() => new ManifestBuilder());
 
         /// <summary>
         /// Attempts to get the manifest.json file path from the additional files defined in the <paramref name="context"/>.

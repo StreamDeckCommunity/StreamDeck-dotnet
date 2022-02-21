@@ -77,13 +77,13 @@
                 }
 
                 // Ensure we have at least 1 action state.
-                if (states.Length == 0)
+                if (action.States.Count == 0)
                 {
                     context.ReportDiagnostic(Diagnostics.NoActionStatesDefined(actionDeclaration.Location));
                 }
 
                 // Ensure we dont have more than 2 action states.
-                if (states.Length > 2)
+                if (action.States.Count > 2)
                 {
                     context.ReportDiagnostic(Diagnostics.TooManyActionStates(actionDeclaration.Location));
                 }
