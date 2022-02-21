@@ -17,17 +17,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{5FF9AEA0-90F6-4608-98A3-C6CE68BD851B}"
-	ProjectSection(SolutionItems) = preProject
-		src\libraries\Directory.Build.props = src\libraries\Directory.Build.props
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{2C0AE4FE-90B6-4BC7-B3CB-EAA7558E14EE}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StreamDeck.Manifest", "src\libraries\StreamDeck.Manifest\StreamDeck.Manifest.csproj", "{03254A6D-41C4-4CF9-92ED-1A7AFED9583B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{AE28828D-2C25-410F-BCA7-7A9C478BBC40}"
+	ProjectSection(SolutionItems) = preProject
+		src\libraries\Directory.Build.props = src\libraries\Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,8 +53,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C6F899BA-B54B-4E08-8429-087EB5C2C9AC} = {65E924FF-1448-4637-89A9-BB1848019169}
-		{5FF9AEA0-90F6-4608-98A3-C6CE68BD851B} = {FA6BDF94-C9AB-45E8-9B33-2B16FCF4D06C}
+		{E6930CED-E610-4291-B06D-1A7616BDBCC2} = {AE28828D-2C25-410F-BCA7-7A9C478BBC40}
 		{2C0AE4FE-90B6-4BC7-B3CB-EAA7558E14EE} = {FA6BDF94-C9AB-45E8-9B33-2B16FCF4D06C}
+		{03254A6D-41C4-4CF9-92ED-1A7AFED9583B} = {AE28828D-2C25-410F-BCA7-7A9C478BBC40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9845BDB9-AC50-40D8-B24F-C0E32CC62659}
