@@ -24,7 +24,7 @@ namespace StreamDeck.Events.Received
                         this.Event = args[++i];
                         break;
                     case "-info":
-                        this.Info = JsonSerializer.Deserialize(args[++i], StreamDeckJsonContext.Default.RegistrationInfo);
+                        this.Info = JsonSerializer.Deserialize(args[++i], StreamDeckJsonContext.Default.RegistrationInfo)!;
                         break;
                     case "-port":
                         this.Port = int.Parse(args[++i]);
@@ -35,7 +35,8 @@ namespace StreamDeck.Events.Received
                 }
             }
 
-            if (string.IsNullOrEmpty(this.Event))
+            if (this.Event == null
+                || this.Event == string.Empty)
             {
                 throw new ArgumentException("-registerEvent was not defined in the command line arguments.", nameof(args));
             }
@@ -50,7 +51,8 @@ namespace StreamDeck.Events.Received
                 throw new ArgumentException("-port was not defined in the command line arguments.", nameof(args));
             }
 
-            if (string.IsNullOrEmpty(this.PluginUUID))
+            if (this.PluginUUID == null
+                || this.PluginUUID == string.Empty)
             {
                 throw new ArgumentException("-pluginUUID was not defined in the command line arguments.", nameof(args));
             }

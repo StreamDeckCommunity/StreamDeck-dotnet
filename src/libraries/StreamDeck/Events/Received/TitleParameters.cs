@@ -12,7 +12,7 @@
         /// Gets or sets the font family for the title.
         /// </summary>
         [JsonConverter(typeof(FontFamilyJsonConverter))]
-        public FontFamily FontFamily { get; set; }
+        public FontFamily? FontFamily { get; set; }
 
         /// <summary>
         /// Gets or sets the font size for the title.
@@ -23,7 +23,7 @@
         /// Gets or sets the font style for the title.
         /// </summary>
         [JsonConverter(typeof(FontStyleJsonConverter))]
-        public FontStyle FontStyle { get; set; }
+        public FontStyle? FontStyle { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the title is underlined.
@@ -39,11 +39,11 @@
         /// Gets or sets the vertical alignment of the title. Possible values are "top", "bottom" and "middle".
         /// </summary>
         [JsonConverter(typeof(TitleAlignmentJsonConverter))]
-        public TitleAlignment TitleAlignment { get; set; }
+        public TitleAlignment? TitleAlignment { get; set; }
 
         /// <summary>
         /// Gets or sets the title color, as a hexidecimal, e.g. #ffffff.
         /// </summary>
-        public string TitleColor { get; set; }
+        public string? TitleColor { get; set; }
     }
 }

@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets or sets the version.
         /// </summary>
-        public string Version { get; set; }
+        public string? Version { get; set; }
     }
 }

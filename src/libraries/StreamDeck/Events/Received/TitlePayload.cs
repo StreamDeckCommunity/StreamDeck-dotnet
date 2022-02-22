@@ -8,11 +8,11 @@
         /// <summary>
         /// Gets or sets the new title.
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Gets or sets the title parameters describing the title.
         /// </summary>
-        public TitleParameters TitleParameters { get; set; }
+        public TitleParameters? TitleParameters { get; set; }
     }
 }

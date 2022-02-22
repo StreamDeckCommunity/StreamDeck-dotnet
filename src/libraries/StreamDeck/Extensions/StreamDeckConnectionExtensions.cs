@@ -20,7 +20,7 @@ namespace StreamDeck.Extensions
         /// <param name="connection">The connection with the Stream Deck.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
         /// <returns>The global settings.</returns>
-        public static Task<T> GetGlobalSettingsAsync<T>(this IStreamDeckConnection connection, CancellationToken cancellationToken = default)
+        public static Task<T?> GetGlobalSettingsAsync<T>(this IStreamDeckConnection connection, CancellationToken cancellationToken = default)
             => connection.GetGlobalSettingsAsync(settings => settings.Deserialize<T>(StreamDeckJsonContext.Default.Options), cancellationToken);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace StreamDeck.Extensions
         /// <param name="jsonTypeInfo">The JSON type information used to deserialize the global settings.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
         /// <returns>The global settings.</returns>
-        public static Task<T> GetGlobalSettingsAsync<T>(this IStreamDeckConnection connection, JsonTypeInfo<T> jsonTypeInfo, CancellationToken cancellationToken = default)
+        public static Task<T?> GetGlobalSettingsAsync<T>(this IStreamDeckConnection connection, JsonTypeInfo<T> jsonTypeInfo, CancellationToken cancellationToken = default)
             => connection.GetGlobalSettingsAsync(settings => settings.Deserialize(jsonTypeInfo), cancellationToken);
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace StreamDeck.Extensions
         /// <param name="context">The context of the action to get the settings for.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
         /// <returns>The action instance's settings.</returns>
-        public static Task<T> GetSettingsAsync<T>(this IStreamDeckConnection connection, string context, CancellationToken cancellationToken = default)
+        public static Task<T?> GetSettingsAsync<T>(this IStreamDeckConnection connection, string context, CancellationToken cancellationToken = default)
             => connection.GetSettingsAsync(context, settings => settings.Deserialize<T>(StreamDeckJsonContext.Default.Options), cancellationToken);
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace StreamDeck.Extensions
         /// <param name="jsonTypeInfo">The JSON type information used to deserialize the global settings.</param>
         /// <param name="cancellationToken">The optional cancellation token.</param>
         /// <returns>The action instance's settings.</returns>
-        public static Task<T> GetSettingsAsync<T>(this IStreamDeckConnection connection, string context, JsonTypeInfo<T> jsonTypeInfo, CancellationToken cancellationToken = default)
+        public static Task<T?> GetSettingsAsync<T>(this IStreamDeckConnection connection, string context, JsonTypeInfo<T> jsonTypeInfo, CancellationToken cancellationToken = default)
             => connection.GetSettingsAsync(context, settings => settings.Deserialize(jsonTypeInfo), cancellationToken);
 
         /// <summary>
@@ -82,9 +82,10 @@ namespace StreamDeck.Extensions
             var taskSource = new TaskCompletionSource<T>();
 
             // Declare the local function handler that sets the task result
-            void handler(object sender, StreamDeckEventArgs<SettingsPayload> e)
+            void handler(object? sender, StreamDeckEventArgs<SettingsPayload> e)
             {
-                if (taskSource.TrySetResult(getSettings(e.Payload.Settings)))
+                if (e.Payload != null
+                    && taskSource.TrySetResult(getSettings(e.Payload.Settings)))
                 {
                     connection.DidReceiveGlobalSettings -= handler;
                 }
@@ -120,9 +121,10 @@ namespace StreamDeck.Extensions
             var taskSource = new TaskCompletionSource<T>();
 
             // Declare the local function handler that sets the task result.
-            void handler(object sender, ActionEventArgs<ActionPayload> e)
+            void handler(object? sender, ActionEventArgs<ActionPayload> e)
             {
                 if (e.Context == context
+                    && e.Payload != null
                     && taskSource.TrySetResult(getSettings(e.Payload.Settings)))
                 {
                     connection.DidReceiveSettings -= handler;

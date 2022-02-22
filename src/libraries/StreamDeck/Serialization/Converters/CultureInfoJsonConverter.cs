@@ -15,7 +15,15 @@
         {
             try
             {
-                return CultureInfo.GetCultureInfo(reader.GetString());
+                var name = reader.GetString();
+                if (name != null)
+                {
+                    return CultureInfo.GetCultureInfo(name);
+                }
+                else
+                {
+                    return CultureInfo.CurrentCulture;
+                }
             }
             catch
             {

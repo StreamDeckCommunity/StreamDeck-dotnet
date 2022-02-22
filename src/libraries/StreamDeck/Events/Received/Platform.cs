@@ -11,8 +11,8 @@
         /// Initializes a new instance of the <see cref="Platform"/> class.
         /// </summary>
         /// <param name="platform">The platform.</param>
-        internal Platform(string platform)
-            : base(platform)
+        internal Platform(string? platform)
+            : base(platform ?? string.Empty)
         {
         }
 

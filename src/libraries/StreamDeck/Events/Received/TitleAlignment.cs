@@ -11,8 +11,8 @@
         /// Initializes a new instance of the <see cref="TitleAlignment"/> class.
         /// </summary>
         /// <param name="alignment">The alignment.</param>
-        internal TitleAlignment(string alignment)
-            : base(alignment)
+        internal TitleAlignment(string? alignment)
+            : base(alignment ?? string.Empty)
         {
         }
 

@@ -11,10 +11,7 @@
         /// <param name="event">The event type that should be used to register the plugin once the WebSocket is opened.</param>
         /// <param name="uuid">The unique identifier string that should be used to register the plugin once the WebSocket is opened.</param>
         public RegistrationMessage(string @event, string uuid)
-            : base(@event)
-        {
-            this.UUID = uuid;
-        }
+            : base(@event) => this.UUID = uuid;
 
         /// <summary>
         /// Gets or sets the unique identifier string that should be used to register the plugin once the WebSocket is opened.

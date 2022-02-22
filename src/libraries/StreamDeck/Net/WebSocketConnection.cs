@@ -33,7 +33,7 @@ namespace StreamDeck.Net
         /// <summary>
         /// Occurs when a message is received.
         /// </summary>
-        public event EventHandler<WebSocketMessageEventArgs> MessageReceived;
+        public event EventHandler<WebSocketMessageEventArgs>? MessageReceived;
 
         /// <summary>
         /// Gets or sets the encoding.
@@ -53,7 +53,7 @@ namespace StreamDeck.Net
         /// <summary>
         /// Gets or sets the web socket.
         /// </summary>
-        private ClientWebSocket WebSocket { get; set; }
+        private ClientWebSocket? WebSocket { get; set; }
 
         /// <summary>
         /// Connects the web socket.
@@ -117,7 +117,7 @@ namespace StreamDeck.Net
 
             try
             {
-                await this._syncRoot.WaitAsync();
+                await this._syncRoot.WaitAsync(cancellationToken);
 
                 var buffer = this.Encoding.GetBytes(message);
                 await this.WebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, cancellationToken);
@@ -131,11 +131,12 @@ namespace StreamDeck.Net
         /// <summary>
         /// Serializes the value, and sends the message asynchronously.
         /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="value">The value to serialize and send.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        public Task SendJsonAsync(object value, CancellationToken cancellationToken)
+        public Task SendJsonAsync<T>(T value, CancellationToken cancellationToken)
         {
-            var json = JsonSerializer.Serialize(value, StreamDeckJsonContext.Default.Options);
+            var json = JsonSerializer.Serialize(value, typeof(T), StreamDeckJsonContext.Default);
             return this.SendAsync(json, cancellationToken);
         }
 

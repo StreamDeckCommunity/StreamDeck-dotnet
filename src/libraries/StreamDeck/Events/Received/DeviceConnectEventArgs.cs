@@ -8,6 +8,6 @@
         /// <summary>
         /// Gets or sets the information about the device.
         /// </summary>
-        public DeviceInfo DeviceInfo { get; set; }
+        public DeviceInfo? DeviceInfo { get; set; }
     }
 }

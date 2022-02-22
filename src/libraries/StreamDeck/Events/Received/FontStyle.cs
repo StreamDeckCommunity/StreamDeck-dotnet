@@ -11,8 +11,8 @@ namespace StreamDeck.Events.Received
         /// Initializes a new instance of the <see cref="FontStyle"/> class.
         /// </summary>
         /// <param name="style">The style.</param>
-        internal FontStyle(string style)
-            : base(style)
+        internal FontStyle(string? style)
+            : base(style ?? Regular)
         {
         }
 

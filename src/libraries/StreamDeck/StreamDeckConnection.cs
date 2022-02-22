@@ -17,55 +17,55 @@ namespace StreamDeck
     public sealed class StreamDeckConnection : IStreamDeckConnection, IStreamDeckConnectionManager
     {
         /// <inheritdoc/>
-        public event EventHandler<StreamDeckEventArgs<ApplicationPayload>> ApplicationDidLaunch;
+        public event EventHandler<StreamDeckEventArgs<ApplicationPayload>>? ApplicationDidLaunch;
 
         /// <inheritdoc/>
-        public event EventHandler<StreamDeckEventArgs<ApplicationPayload>> ApplicationDidTerminate;
+        public event EventHandler<StreamDeckEventArgs<ApplicationPayload>>? ApplicationDidTerminate;
 
         /// <inheritdoc/>
-        public event EventHandler<DeviceConnectEventArgs> DeviceDidConnect;
+        public event EventHandler<DeviceConnectEventArgs>? DeviceDidConnect;
 
         /// <inheritdoc/>
-        public event EventHandler<DeviceEventArgs> DeviceDidDisconnect;
+        public event EventHandler<DeviceEventArgs>? DeviceDidDisconnect;
 
         /// <inheritdoc/>
-        public event EventHandler<StreamDeckEventArgs<SettingsPayload>> DidReceiveGlobalSettings;
+        public event EventHandler<StreamDeckEventArgs<SettingsPayload>>? DidReceiveGlobalSettings;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs<ActionPayload>> DidReceiveSettings;
+        public event EventHandler<ActionEventArgs<ActionPayload>>? DidReceiveSettings;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs<KeyPayload>> KeyDown;
+        public event EventHandler<ActionEventArgs<KeyPayload>>? KeyDown;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs<KeyPayload>> KeyUp;
+        public event EventHandler<ActionEventArgs<KeyPayload>>? KeyUp;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs> PropertyInspectorDidAppear;
+        public event EventHandler<ActionEventArgs>? PropertyInspectorDidAppear;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs> PropertyInspectorDidDisappear;
+        public event EventHandler<ActionEventArgs>? PropertyInspectorDidDisappear;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs<JsonObject>> SendToPlugin;
+        public event EventHandler<ActionEventArgs<JsonObject>>? SendToPlugin;
 
         /// <inheritdoc/>
-        public event EventHandler<StreamDeckEventArgs> SystemDidWakeUp;
+        public event EventHandler<StreamDeckEventArgs>? SystemDidWakeUp;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs<TitlePayload>> TitleParametersDidChange;
+        public event EventHandler<ActionEventArgs<TitlePayload>>? TitleParametersDidChange;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs<AppearancePayload>> WillAppear;
+        public event EventHandler<ActionEventArgs<AppearancePayload>>? WillAppear;
 
         /// <inheritdoc/>
-        public event EventHandler<ActionEventArgs<AppearancePayload>> WillDisappear;
+        public event EventHandler<ActionEventArgs<AppearancePayload>>? WillDisappear;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StreamDeckConnection"/> class.
         /// </summary>
         /// <param name="logger">The optional logger.</param>
-        public StreamDeckConnection(ILogger<StreamDeckConnection> logger = null)
+        public StreamDeckConnection(ILogger<StreamDeckConnection>? logger = null)
             : this(Environment.GetCommandLineArgs(), logger)
         {
         }
@@ -75,7 +75,7 @@ namespace StreamDeck
         /// </summary>
         /// <param name="args">The CLI arguments that contain the registration parameters.</param>
         /// <param name="logger">The optional logger.</param>
-        public StreamDeckConnection(string[] args, ILogger<StreamDeckConnection> logger = null)
+        public StreamDeckConnection(string[] args, ILogger<StreamDeckConnection>? logger = null)
             : this(new RegistrationParameters(args), logger)
         {
         }
@@ -85,7 +85,7 @@ namespace StreamDeck
         /// </summary>
         /// <param name="registrationParameters">The registration parameters.</param>
         /// <param name="logger">The optional logger.</param>
-        public StreamDeckConnection(RegistrationParameters registrationParameters, ILogger<StreamDeckConnection> logger = null)
+        public StreamDeckConnection(RegistrationParameters registrationParameters, ILogger<StreamDeckConnection>? logger = null)
         {
             this.Logger = logger;
             this.RegistrationParameters = registrationParameters;
@@ -97,7 +97,7 @@ namespace StreamDeck
         /// <summary>
         /// Gets the logger.
         /// </summary>
-        private ILogger<StreamDeckConnection> Logger { get; }
+        private ILogger<StreamDeckConnection>? Logger { get; }
 
         /// <summary>
         /// Gets or sets the registration parameters.
@@ -107,7 +107,7 @@ namespace StreamDeck
         /// <summary>
         /// Gets or sets the web socket.
         /// </summary>
-        private WebSocketConnection WebSocket { get; set; }
+        private WebSocketConnection? WebSocket { get; set; }
 
         /// <inheritdoc/>
         public async Task ConnectAsync(CancellationToken cancellationToken = default)
@@ -116,7 +116,7 @@ namespace StreamDeck
             this.WebSocket = new WebSocketConnection($"ws://localhost:{this.RegistrationParameters.Port}/");
             this.WebSocket.MessageReceived += this.WebSocket_MessageReceived;
 
-            await this.WebSocket.ConnectAsync();
+            await this.WebSocket.ConnectAsync(cancellationToken);
             this.Logger?.LogTrace($"Connected to Stream Deck; registering plugin.");
 
             await this.WebSocket.SendJsonAsync(new RegistrationMessage(this.RegistrationParameters.Event, this.RegistrationParameters.PluginUUID), cancellationToken);
@@ -125,11 +125,11 @@ namespace StreamDeck
 
         /// <inheritdoc/>
         public Task DisconnectAsync()
-            => this.WebSocket.DisconnectAsync();
+            => this.WebSocket?.DisconnectAsync() ?? Task.CompletedTask;
 
         /// <inheritdoc/>
         public Task WaitForShutdownAsync(CancellationToken cancellationToken = default)
-            => this.WebSocket.WaitForDisconnectAsync(cancellationToken);
+            => this.WebSocket?.WaitForDisconnectAsync(cancellationToken) ?? Task.CompletedTask;
 
         /// <inheritdoc/>
         public async ValueTask DisposeAsync()
@@ -197,90 +197,90 @@ namespace StreamDeck
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The task of sending the value.</returns>
         private Task SendAsync(object value, CancellationToken cancellationToken)
-            => this.WebSocket.SendJsonAsync(value, cancellationToken);
+            => this.WebSocket?.SendJsonAsync(value, cancellationToken) ?? throw new InvalidOperationException("Failed to send message to Stream Deck; connection has not yet been established.");
 
         /// <summary>
         /// Handles the <see cref="WebSocketConnection.MessageReceived"/> public event of <see cref="WebSocket"/>.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="WebSocketMessageEventArgs"/> instance containing the public event data.</param>
-        private void WebSocket_MessageReceived(object sender, WebSocketMessageEventArgs e)
+        private void WebSocket_MessageReceived(object? sender, WebSocketMessageEventArgs e)
         {
             try
             {
                 var args = JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgs);
-                switch (args.Event)
+                switch (args?.Event)
                 {
                     // Global.
                     case "applicationDidLaunch":
-                        this.ApplicationDidLaunch?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload));
+                        this.ApplicationDidLaunch?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload)!);
                         break;
 
                     case "applicationDidTerminate":
-                        this.ApplicationDidTerminate?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload));
+                        this.ApplicationDidTerminate?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsApplicationPayload)!);
                         break;
 
                     case "deviceDidConnect":
-                        this.DeviceDidConnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceConnectEventArgs));
+                        this.DeviceDidConnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceConnectEventArgs)!);
                         break;
 
                     case "deviceDidDisconnect":
-                        this.DeviceDidDisconnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceEventArgs));
+                        this.DeviceDidDisconnect?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.DeviceEventArgs)!);
                         break;
 
                     case "didReceiveGlobalSettings":
-                        this.DidReceiveGlobalSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsSettingsPayload));
+                        this.DidReceiveGlobalSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgsSettingsPayload)!);
                         break;
 
                     case "systemDidWakeUp":
-                        this.SystemDidWakeUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgs));
+                        this.SystemDidWakeUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.StreamDeckEventArgs)!);
                         break;
 
                     // Action specific.
                     case "didReceiveSettings":
-                        this.DidReceiveSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsActionPayload));
+                        this.DidReceiveSettings?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsActionPayload)!);
                         break;
 
                     case "keyDown":
-                        this.KeyDown?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload));
+                        this.KeyDown?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload)!);
                         break;
 
                     case "keyUp":
-                        this.KeyUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload));
+                        this.KeyUp?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsKeyPayload)!);
                         break;
 
                     case "propertyInspectorDidAppear":
-                        this.PropertyInspectorDidAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs));
+                        this.PropertyInspectorDidAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs)!);
                         break;
 
                     case "propertyInspectorDidDisappear":
-                        this.PropertyInspectorDidDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs));
+                        this.PropertyInspectorDidDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgs)!);
                         break;
 
                     case "sendToPlugin":
-                        this.SendToPlugin?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsJsonObject));
+                        this.SendToPlugin?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsJsonObject)!);
                         break;
 
                     case "titleParametersDidChange":
-                        this.TitleParametersDidChange?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsTitlePayload));
+                        this.TitleParametersDidChange?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsTitlePayload)!);
                         break;
 
                     case "willAppear":
-                        this.WillAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload));
+                        this.WillAppear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload)!);
                         break;
 
                     case "willDisappear":
-                        this.WillDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload));
+                        this.WillDisappear?.Invoke(this, JsonSerializer.Deserialize(e.Message, StreamDeckJsonContext.Default.ActionEventArgsAppearancePayload)!);
                         break;
 
                     // Unrecognised
                     default:
-                        throw new ArgumentException($"Unrecognised event: {args.Event}", nameof(args.Event));
+                        throw new InvalidOperationException($"Unrecognised event: {args?.Event ?? "[undefined]"}");
                 }
             }
             catch (Exception ex)
             {
-                this.Logger?.LogError(ex, ex.Message);
+                this.Logger?.LogError(ex, "{message}", ex.Message);
             }
         }
     }

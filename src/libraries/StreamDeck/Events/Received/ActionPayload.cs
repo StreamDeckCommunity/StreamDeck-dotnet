@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets or sets the coordinates of a triggered action.
         /// </summary>
-        public Coordinates Coordinates { get; set; }
+        public Coordinates? Coordinates { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the action is inside a Multi Action.

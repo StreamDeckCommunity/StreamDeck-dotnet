@@ -11,8 +11,8 @@ namespace StreamDeck.Events.Received
         /// Initializes a new instance of the <see cref="FontFamily"/> class.
         /// </summary>
         /// <param name="name">The name of the font.</param>
-        internal FontFamily(string name)
-            : base(name)
+        internal FontFamily(string? name)
+            : base(name ?? FontFamily.Default)
         {
         }
 

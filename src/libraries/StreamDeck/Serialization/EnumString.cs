@@ -34,8 +34,8 @@
         /// </summary>
         /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
         /// <returns><c>true</c> if the specified <see cref="object" /> is equal to this instance; otherwise, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-            => this.Equals(obj as EnumString<T>);
+        public override bool Equals(object? obj)
+            => obj is EnumString<T> other && this.Equals(other);
 
         /// <summary>
         /// Returns a hash code for this instance.
@@ -56,7 +56,7 @@
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns><c>true</c> if the current object is equal to the <paramref name="other">other</paramref> parameter; otherwise, <c>false</c>.</returns>
-        public bool Equals(T other)
+        public bool Equals(T? other)
             => other?.Value?.Equals(this.Value) == true;
     }
 }

@@ -8,16 +8,16 @@ namespace StreamDeck.Events.Received
         /// <summary>
         /// Gets the actions unique identifier. If your plugin supports multiple actions, you should use this value to see which action was triggered.
         /// </summary>
-        string Action { get; }
+        string? Action { get; }
 
         /// <summary>
         /// Gets an opaque value identifying the instances action. You will need to pass this opaque value to several APIs like the `setTitle` API.
         /// </summary>
-        string Context { get; }
+        string? Context { get; }
 
         /// <summary>
         /// Gets an opaque value identifying the device. Note that this opaque value will change each time you relaunch the Stream Deck application.
         /// </summary>
-        string Device { get; }
+        string? Device { get; }
     }
 }
